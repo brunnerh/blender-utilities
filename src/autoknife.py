@@ -5,6 +5,7 @@ bl_info = {
 	"version": (1, 1),
 	"blender": (2, 90, 1),
 	"location": "View3D > Edit > Mesh",
+	"tracker_url": "https://github.com/brunnerh/blender-utilities/issues",
 	"support": "COMMUNITY",
 	"category": "Mesh",
 }
