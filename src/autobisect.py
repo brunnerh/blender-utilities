@@ -3,7 +3,7 @@ bl_info = {
 	"description": "Cuts a mesh along a plane/normal to an axis.",
 	"author": "brunnerh",
 	"version": (1, 2),
-	"blender": (2, 90, 1),
+	"blender": (2, 92, 0),
 	"location": "View3D > Edit > Mesh",
 	"tracker_url": "https://github.com/brunnerh/blender-utilities/issues",
 	"support": "COMMUNITY",
