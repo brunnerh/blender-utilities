@@ -1,5 +1,12 @@
 # Changelog
 
+## [`autobisect` 1.4] - 2021-06-19
+- Forward bisect properties:
+  - Fill
+  - Clear Inner
+  - Clear Outer
+  - Axis Threshold
+
 ## [`autobisect` 1.3] - 2021-06-19
 - Add alignment option:
   - 3D Cursor

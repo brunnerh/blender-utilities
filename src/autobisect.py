@@ -2,7 +2,7 @@ bl_info = {
 	"name": "Auto Bisect",
 	"description": "Cuts a mesh along a plane/normal to an axis.",
 	"author": "brunnerh",
-	"version": (1, 3),
+	"version": (1, 4),
 	"blender": (2, 92, 0),
 	"location": "View3D > Edit > Mesh",
 	"tracker_url": "https://github.com/brunnerh/blender-utilities/issues",
@@ -52,6 +52,30 @@ class AutoBisectOperator(types.Operator):
 		default=False,
 	)
 
+	# Forwarded properties
+	use_fill: props.BoolProperty(
+		name='Fill',
+		description='Fill in the cut.',
+		default=False,
+	)
+	clear_inner: props.BoolProperty(
+		name='Clear Inner',
+		description='Remove geometry behind the plane.',
+		default=False,
+	)
+	clear_outer: props.BoolProperty(
+		name='Clear Inner',
+		description='Remove geometry in front of the plane.',
+		default=False,
+	)
+	threshold: props.FloatProperty(
+		name='Axis Threshold',
+		description='Preserves the existing geometry along the cut plane.',
+		default=0.0001,
+		min=0,
+		precision=5,
+	)
+
 	@classmethod
 	def poll(cls, context):
 		return context.active_object is not None
@@ -78,6 +102,10 @@ class AutoBisectOperator(types.Operator):
 		ops.mesh.bisect(
 			plane_co=plane_co,
 			plane_no=plane_no,
+			use_fill=self.use_fill,
+			clear_inner=self.clear_inner,
+			clear_outer=self.clear_outer,
+			threshold=self.threshold,
 		)
 
 		return {'FINISHED'}
