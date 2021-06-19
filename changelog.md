@@ -1,5 +1,11 @@
 # Changelog
 
+## [`autobisect` 1.3] - 2021-06-19
+- Add alignment option:
+  - 3D Cursor
+  - Object Origin
+  - World Origin
+
 ## [`autobisect` 1.2] - 2021-06-01
 - Renamed `autoknife` to `autobisect`.
 - Use `bisect` internally instead of `knife_project`.

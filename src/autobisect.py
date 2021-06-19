@@ -2,7 +2,7 @@ bl_info = {
 	"name": "Auto Bisect",
 	"description": "Cuts a mesh along a plane/normal to an axis.",
 	"author": "brunnerh",
-	"version": (1, 2),
+	"version": (1, 3),
 	"blender": (2, 92, 0),
 	"location": "View3D > Edit > Mesh",
 	"tracker_url": "https://github.com/brunnerh/blender-utilities/issues",
@@ -15,6 +15,7 @@ from mathutils import Euler
 from math import radians
 from bpy import ops, types, props
 from typing import List
+from operator import add
 
 class AutoBisectOperator(types.Operator):
 	"""Automatically slice along a plane/normal to an axis."""
@@ -28,7 +29,17 @@ class AutoBisectOperator(types.Operator):
 		items=[
 			('X', 'Normal to X', 'Normal to X Axis'),
 			('Y', 'Normal to Y', 'Normal to Y Axis'),
-			('Z', 'Normal to Z', 'Normal to Z Axis')
+			('Z', 'Normal to Z', 'Normal to Z Axis'),
+		]
+	)
+	alignment: props.EnumProperty(
+		name='Alignment',
+		description='Defines the point through which the bisect cuts.',
+		default='Object',
+		items=[
+			('Cursor', '3D Cursor', '3D Cursor Position'),
+			('Object', 'Object Origin', 'Object Origin Position'),
+			('World', 'World Origin', 'World Origin Position'),
 		]
 	)
 	offset: props.FloatProperty(
@@ -53,8 +64,15 @@ class AutoBisectOperator(types.Operator):
 		y = 1 if self.axis == 'Y' else 0
 		z = 1 if self.axis == 'Z' else 0
 
+		positions = {
+			'World': (0, 0, 0),
+			'Object': context.active_object.location,
+			'Cursor': context.scene.cursor.location,
+		}
+		position = positions[self.alignment]
 		offset = self.offset
-		plane_co = (offset * x, offset * y, offset * z)
+		offset_vector = (offset * x, offset * y, offset * z)
+		plane_co = tuple(map(add, position, offset_vector))
 		plane_no = (x, y, z)
 
 		ops.mesh.bisect(
